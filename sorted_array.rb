@@ -1,3 +1,5 @@
+require 'pry'
+
 class SortedArray
   attr_reader :internal_arr
 
@@ -38,22 +40,73 @@ class SortedArray
   end
 
   def each &block
-    raise NotImplementedError.new("You need to implement the each method!")
+    # loop over all element in @internal_arr
+    # yield to each element
+    
+    # let's keep track of our index
+    i = 0
+    until i == @internal_arr.size # until you get the last element of the array
+      yield @internal_arr[i]      # yield to the element with the index
+      i += 1                      # increment to next index
+    end
+    @internal_arr                 # return the array
+
   end
 
   def map &block
-    raise NotImplementedError.new("You need to implement the map method!")
+    new_array = []
+    self.each {|el| new_array << (yield el)}
+    new_array
+
+    # i = 0
+    # new_array=[]
+    # until i == @internal_arr.size
+    #   new_array[i] = yield @internal_arr[i]
+    #   i+=1
+    # end
+    #   new_array
   end
 
   def map! &block
-    raise NotImplementedError.new("You need to implement the map! method!")
+    new_arr = []
+    self.each{|ele| new_arr << (yield ele) }
+    @internal_arr = new_arr
+    
+    # i = 0
+    # until i == @internal_arr.size
+    #   @internal_arr[i] = yield @internal_arr[i]
+    #   i+=1
+    # end
+    #  @internal_arr
   end
 
-  def find value
-    raise NotImplementedError.new("You need to implement the find method!")
+  def find &block
+    i = 0
+    while i < @internal_arr.size  
+      if yield @internal_arr[i] == true
+        return @internal_arr[i]
+      end
+      i += 1
+    end
+    return nil
   end
+
+    # i = 0
+    # until i == @internal_arr.size
+      
+    #   if (yield @internal_arr[i]) == value
+    #       return value
+    #   en
 
   def inject acc=nil, &block
-    raise NotImplementedError.new("You need to implement the inject method!")
+    while i< @internal_arr.size
+      acc = (yield acc, @internal_arr[i])
+      i += 1
+    end
+    return acc
   end
+
 end
+
+arr = SortedArray.new
+arr.map { |e| e*2 }

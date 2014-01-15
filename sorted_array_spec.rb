@@ -1,4 +1,4 @@
-require 'rspec'
+  require 'rspec'
 require './sorted_array.rb'
 
 shared_examples "yield to all elements in sorted array" do |method|
@@ -34,7 +34,7 @@ describe SortedArray do
         it_should_behave_like "yield to all elements in sorted array", :map
 
         it 'creates a new array containing the values returned by the block' do
-          pending "fill this spec in with a meaningful example"
+          sorted_array.map {|ele| ele*2 }.should == [4,6,8,14,18]
         end
       end
     end
@@ -42,31 +42,44 @@ describe SortedArray do
     describe "that update the original array" do
       describe :map! do
         it 'the original array should be updated' do
-          pending "fill this spec in with a meaningful example"
+           sorted_array.map! {|el| el }.should_not eq sorted_array
         end
 
         it_should_behave_like "yield to all elements in sorted array", :map!
 
         it 'should replace value of each element with the value returned by block' do
-          pending "this is just the same as the example above"
+          sorted_array.internal_arr.map!{|ele| ele*2}.should_not eq source
         end
       end
     end
   end
 
   describe :find do
-    it_should_behave_like "yield to all elements in sorted array", :find
 
-    it "does not currently have any examples for it" do
-      pending "define some examples by looking up http://www.ruby-doc.org/core-2.1.0/Enumerable.html#method-i-find"
+    it "should find return the value that you are looking for based on block" do
+      # pending "define some examples by looking up http://www.ruby-doc.org/core-2.1.0/Enumerable.html#method-i-find"
+      source.find  { |i| i % 2 == 0 }.should eq(2)
     end
+
+    it "should return nil if it doesn't find the element" do
+      source.find { |i| (i % 2 == 0 && i % 3 == 0)}.should eq(nil)
+      # source.find  { |i| i % 2 == 0 }.should eq()
+    end
+
   end
 
   describe :inject do
+    specify do
+      expect do |b|
+        block_with_two_args = Proc.new { |acc,el| acc + el}
+        sorted_array.send(:+, block_with_two_args)
+      end.to yield_successive_args([0,2], [2,3], [5,4], [9,7], [16,9])
+    
     it_should_behave_like "yield to all elements in sorted array", :inject
 
     it "does not currently have any examples for it" do
       pending "define some examples by looking up http://www.ruby-doc.org/core-2.1.0/Enumerable.html#method-i-inject"
     end
   end
+end
 end
