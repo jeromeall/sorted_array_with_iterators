@@ -9,7 +9,7 @@ class SortedArray
   end
 
   def add el
-    # we are going to keep this array
+    # we are going to    this array
     # sorted at all times. so this is ez
     lo = 0
     hi = @internal_arr.size
@@ -39,45 +39,39 @@ class SortedArray
     @internal_arr.insert(lo, el)
   end
 
+
+  # loop over all element in @internal_arr
+  # yield to each element
   def each &block
-    # loop over all element in @internal_arr
-    # yield to each element
-    
-    # let's keep track of our index
-    i = 0
+
+    i = 0                         # let's keep track of our index
     until i == @internal_arr.size # until you get the last element of the array
-      yield @internal_arr[i]      # yield to the element with the index
+      yield @internal_arr[i]      # yield to the block of code with @internal_arr[i] as the element
       i += 1                      # increment to next index
     end
-    @internal_arr                 # return the array
+    @internal_arr                 # return the array when reaching end of it
 
   end
 
+
+  # for each element in the block
+  # return a new array with elements 
+  # that return true in the block
   def map &block
-    new_array = []
-    self.each {|el| new_array << (yield el)}
-    new_array
-
-    # i = 0
-    # new_array=[]
-    # until i == @internal_arr.size
-    #   new_array[i] = yield @internal_arr[i]
-    #   i+=1
-    # end
-    #   new_array
+    new_array = []                              # create a new array where elements will go into
+    self.each {|el| new_array << (yield el)}    # for each true element in the block, shovel that element into new array
+    new_array                                   # return the new array
   end
 
+
+
+
+  # for each
   def map! &block
     new_arr = []
     self.each{|ele| new_arr << (yield ele) }
     @internal_arr = new_arr
-    
-    # i = 0
-    # until i == @internal_arr.size
-    #   @internal_arr[i] = yield @internal_arr[i]
-    #   i+=1
-    # end
-    #  @internal_arr
+
   end
 
   def find &block
@@ -99,14 +93,16 @@ class SortedArray
     #   en
 
   def inject acc=nil, &block
+    i = 0
     while i< @internal_arr.size
       acc = (yield acc, @internal_arr[i])
       i += 1
     end
+    # binding.pry
     return acc
+    
   end
 
 end
 
-arr = SortedArray.new
-arr.map { |e| e*2 }
+
