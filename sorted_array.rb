@@ -75,32 +75,41 @@ class SortedArray
   end
 
   def find &block
-    i = 0
-    while i < @internal_arr.size  
-      if yield @internal_arr[i] == true
-        return @internal_arr[i]
-      end
-      i += 1
+    @internal_arr.each do |el|
+      return el if yield(el)
+      break
     end
-    return nil
+
+
+    ## Using a loop instead of each method
+    # i = 0
+    # while i < @internal_arr.size  
+    #   if yield @internal_arr[i] == true
+    #     return @internal_arr[i]
+    #   end
+    #   i += 1
+    # end
+    # return nil
   end
 
-    # i = 0
-    # until i == @internal_arr.size
-      
-    #   if (yield @internal_arr[i]) == value
-    #       return value
-    #   en
 
   def inject acc=nil, &block
-    i = 0
-    while i< @internal_arr.size
-      acc = (yield acc, @internal_arr[i])
-      i += 1
+    # i = 0
+    # while i< @internal_arr.size
+    #   acc = (yield acc, @internal_arr[i])
+    #   i += 1
+    # end
+    # # binding.pry
+    # return acc
+
+    self.each do |ele|
+      if acc.nil?
+        acc = @internal_arr[0]
+      else
+        acc = (yield acc, ele)
+      end
     end
-    # binding.pry
     return acc
-    
   end
 
 end

@@ -10,7 +10,7 @@ shared_examples "yield to all elements in sorted array" do |method|
     end
 end
 
-# 
+# # # 
 describe SortedArray do
   let(:source) { [2,3,4,7,9] }                  # array passed in SortedArray class to create a new instance
   let(:sorted_array) { SortedArray.new source } # create an instance of the sorted array from source
@@ -59,7 +59,7 @@ describe SortedArray do
        
         it 'creates a new array containing the values returned by the block (times 2)' do
           # when calling map to double every element in sorted_array
-          # it returns a new array with the values [4,6,8,14,18]
+          # it returns a new array with the values 
           sorted_array.map {|ele| ele*2 }.should == [4,6,8,14,18]
         end
 
@@ -85,6 +85,7 @@ describe SortedArray do
         it 'should replace value of each element with the value returned by block' do
           sorted_array.internal_arr.map!{|ele| ele*2}.should_not eq source
         end
+
       end
     end
   end
@@ -104,18 +105,13 @@ describe SortedArray do
   end
 
   describe :inject do
-    # specify do 
-    #   expect do |b| 
-    #     block_with_two_args = Proc.new { |acc, el| return true}
-    #     sorted_array.send(method, block_with_two_args) 
-    #   end.to yield_successive_args([0,2], [2,3], [5,4],[9,7], [16,9]) 
-    
 
     it "returns the sum of all the elements in the array" do
       # pending "define some examples by looking up http://www.ruby-doc.org/core-2.1.0/Enumerable.html#method-i-inject"
       sorted_array.inject(0){ |sum, x| sum += x }.should eq(25) 
+      sorted_array.inject(1){ |sum, x| sum += x }.should eq(26) 
+      sorted_array.inject(2){ |sum, x| sum += x }.should eq(27) 
     end
 
-  # end
 end
 end
